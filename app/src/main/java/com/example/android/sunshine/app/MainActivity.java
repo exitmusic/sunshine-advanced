@@ -298,6 +298,7 @@ public class MainActivity extends ActionBarActivity implements ForecastFragment.
         final SharedPreferences prefs = getGCMPreferences(context);
         int appVersion = getAppVersion(context);
         Log.i(LOG_TAG, "Saving regId on app version " + appVersion);
+        Log.i(LOG_TAG, "Registration ID: " + regId);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PROPERTY_REG_ID, regId);
         editor.putInt(PROPERTY_APP_VERSION, appVersion);
