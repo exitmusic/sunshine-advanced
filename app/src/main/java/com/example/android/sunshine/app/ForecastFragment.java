@@ -42,8 +42,7 @@ import com.example.android.sunshine.app.sync.SunshineSyncAdapter;
 /**
  * Encapsulates fetching the forecast and displaying it as a {@link ListView} layout.
  */
-public class ForecastFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
+public class ForecastFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor>, SharedPreferences.OnSharedPreferenceChangeListener {
     public static final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private ForecastAdapter mForecastAdapter;
 
@@ -157,12 +156,9 @@ public class ForecastFragment extends Fragment implements
 
         // Get a reference to the ListView, and attach this adapter to it.
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
-        mListView.setAdapter(mForecastAdapter);
-
-        // Set empty view in case weather information is not available
         View emptyView = rootView.findViewById(R.id.listview_forecast_empty);
         mListView.setEmptyView(emptyView);
-
+        mListView.setAdapter(mForecastAdapter);
         // We'll call our MainActivity
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -292,15 +288,15 @@ public class ForecastFragment extends Fragment implements
     }
 
     /*
-        Updates the empty list view with contextually relevant information on why weather is not displayed
+        Updates the empty list view with contextually relevant information that the user can
+        use to determine why they aren't seeing weather.
      */
     private void updateEmptyView() {
-        if (mForecastAdapter.getCount() == 0) {
+        if ( mForecastAdapter.getCount() == 0 ) {
             TextView tv = (TextView) getView().findViewById(R.id.listview_forecast_empty);
-
-            if (tv != null) {
+            if ( null != tv ) {
+                // if cursor is empty, why? do we have an invalid location
                 int message = R.string.empty_forecast_list;
-
                 @SunshineSyncAdapter.LocationStatus int location = Utility.getLocationStatus(getActivity());
                 switch (location) {
                     case SunshineSyncAdapter.LOCATION_STATUS_SERVER_DOWN:
@@ -313,7 +309,7 @@ public class ForecastFragment extends Fragment implements
                         message = R.string.empty_forecast_list_invalid_location;
                         break;
                     default:
-                        if (!Utility.isNetworkAvailable(getActivity())) {
+                        if (!Utility.isNetworkAvailable(getActivity()) ) {
                             message = R.string.empty_forecast_list_no_network;
                         }
                 }
@@ -324,8 +320,9 @@ public class ForecastFragment extends Fragment implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        if (key.equals(getString(R.string.pref_location_status_key))) {
+        if ( key.equals(getString(R.string.pref_location_status_key)) ) {
             updateEmptyView();
         }
     }
+
 }

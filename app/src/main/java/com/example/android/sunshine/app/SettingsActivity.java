@@ -98,24 +98,26 @@ public class SettingsActivity extends PreferenceActivity
             }
         } else if (key.equals(getString(R.string.pref_location_key))) {
             @SunshineSyncAdapter.LocationStatus int status = Utility.getLocationStatus(this);
-
             switch (status) {
                 case SunshineSyncAdapter.LOCATION_STATUS_OK:
                     preference.setSummary(stringValue);
                     break;
                 case SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN:
-                    preference.setSummary(getString(R.string.pref_location_unknown_description, stringValue));
+                    preference.setSummary(getString(R.string.pref_location_unknown_description, value.toString()));
                     break;
                 case SunshineSyncAdapter.LOCATION_STATUS_INVALID:
-                    preference.setSummary(getString(R.string.pref_location_error_description, stringValue));
+                    preference.setSummary(getString(R.string.pref_location_error_description, value.toString()));
                     break;
                 default:
+                    // Note --- if the server is down we still assume the value
+                    // is valid
                     preference.setSummary(stringValue);
             }
         } else {
             // For other preferences, set the summary to the value's simple string representation.
             preference.setSummary(stringValue);
         }
+
     }
 
     // This gets called before the preference is changed
@@ -130,14 +132,15 @@ public class SettingsActivity extends PreferenceActivity
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if ( key.equals(getString(R.string.pref_location_key)) ) {
-            // Clear location status when changing location
+            // we've changed the location
+            // first clear locationStatus
             Utility.resetLocationStatus(this);
             SunshineSyncAdapter.syncImmediately(this);
         } else if ( key.equals(getString(R.string.pref_units_key)) ) {
-            // Units have changed. update lists of weather entries accordingly
+            // units have changed. update lists of weather entries accordingly
             getContentResolver().notifyChange(WeatherContract.WeatherEntry.CONTENT_URI, null);
         } else if ( key.equals(getString(R.string.pref_location_status_key)) ) {
-            // Location status has changed.  Update the summary accordingly
+            // our location status has changed.  Update the summary accordingly
             Preference locationPreference = findPreference(getString(R.string.pref_location_key));
             bindPreferenceSummaryToValue(locationPreference);
         } else if ( key.equals(getString(R.string.pref_art_pack_key)) ) {

@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
      * Substitute you own project number here. This project number comes
      * from the Google Developers Console.
      */
-    static final String PROJECT_NUMBER = "503143711331";
+    static final String PROJECT_NUMBER = "Your Project Number";
 
     private boolean mTwoPane;
     private String mLocation;
@@ -97,10 +97,10 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
 
             if (PROJECT_NUMBER.equals("Your Project Number")) {
                 new AlertDialog.Builder(this)
-                        .setTitle("Needs Project Number")
-                        .setMessage("GCM will not function in Sunshine until you set the Project Number to the one from the Google Developers Console.")
-                        .setPositiveButton(android.R.string.ok, null)
-                        .create().show();
+                .setTitle("Needs Project Number")
+                .setMessage("GCM will not function in Sunshine until you set the Project Number to the one from the Google Developers Console.")
+                .setPositiveButton(android.R.string.ok, null)
+                .create().show();
             } else if (regId.isEmpty()) {
                 registerInBackground(this);
             }
@@ -303,7 +303,6 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         final SharedPreferences prefs = getGCMPreferences(context);
         int appVersion = getAppVersion(context);
         Log.i(LOG_TAG, "Saving regId on app version " + appVersion);
-        Log.i(LOG_TAG, "Registration ID: " + regId);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(PROPERTY_REG_ID, regId);
         editor.putInt(PROPERTY_APP_VERSION, appVersion);

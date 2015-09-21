@@ -74,8 +74,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final int INDEX_SHORT_DESC = 3;
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_UNKNOWN, LOCATION_STATUS_INVALID})
-    public @interface LocationStatus{}
+    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID,  LOCATION_STATUS_UNKNOWN, LOCATION_STATUS_INVALID})
+    public @interface LocationStatus {}
 
     public static final int LOCATION_STATUS_OK = 0;
     public static final int LOCATION_STATUS_SERVER_DOWN = 1;
@@ -225,8 +225,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
         try {
             JSONObject forecastJson = new JSONObject(forecastJsonStr);
 
-            // What kind of error?
-            if (forecastJson.has(OWM_MESSAGE_CODE)) {
+            // do we have an error?
+            if ( forecastJson.has(OWM_MESSAGE_CODE) ) {
                 int errorCode = forecastJson.getInt(OWM_MESSAGE_CODE);
 
                 switch (errorCode) {
@@ -340,7 +340,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 notifyWeather();
             }
-
             Log.d(LOG_TAG, "Sync Complete. " + cVVector.size() + " Inserted");
             setLocationStatus(getContext(), LOCATION_STATUS_OK);
 
@@ -408,7 +407,6 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         Log.e(LOG_TAG, "Error retrieving large icon from " + artUrl, e);
                         largeIcon = BitmapFactory.decodeResource(resources, artResourceId);
                     }
-
                     String title = context.getString(R.string.app_name);
 
                     // Define the text of the forecast.
@@ -606,10 +604,9 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
      * @param c Context to get the PreferenceManager from.
      * @param locationStatus The IntDef value to set
      */
-    private static void setLocationStatus(Context c, @LocationStatus int locationStatus) {
+    static private void setLocationStatus(Context c, @LocationStatus int locationStatus){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         SharedPreferences.Editor spe = sp.edit();
-
         spe.putInt(c.getString(R.string.pref_location_status_key), locationStatus);
         spe.commit();
     }

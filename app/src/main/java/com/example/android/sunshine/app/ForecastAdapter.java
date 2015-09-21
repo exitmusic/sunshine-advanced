@@ -90,20 +90,20 @@ public class ForecastAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
 
         ViewHolder viewHolder = (ViewHolder) view.getTag();
-
-        int viewType = getItemViewType(cursor.getPosition());
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         int fallbackIconId;
-
+        int viewType = getItemViewType(cursor.getPosition());
         switch (viewType) {
             case VIEW_TYPE_TODAY: {
                 // Get weather icon
-                fallbackIconId = Utility.getArtResourceForWeatherCondition(weatherId);
+                fallbackIconId = Utility.getArtResourceForWeatherCondition(
+                        weatherId);
                 break;
             }
             default: {
                 // Get weather icon
-                fallbackIconId = Utility.getIconResourceForWeatherCondition(weatherId);
+                fallbackIconId = Utility.getIconResourceForWeatherCondition(
+                        weatherId);
                 break;
             }
         }
@@ -119,7 +119,7 @@ public class ForecastAdapter extends CursorAdapter {
         // Find TextView and set formatted date on it
         viewHolder.dateView.setText(Utility.getFriendlyDayString(context, dateInMillis));
 
-        // Get description from weather condition id
+        // Get description from weather condition ID
         String description = Utility.getStringForWeatherCondition(context, weatherId);
         // Find TextView and set weather forecast on it
         viewHolder.descriptionView.setText(description);
