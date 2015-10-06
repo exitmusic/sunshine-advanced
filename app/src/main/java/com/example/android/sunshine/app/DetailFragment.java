@@ -25,6 +25,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -179,7 +180,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
             );
         }
         ViewParent vp = getView().getParent();
-        if (vp instanceof CardView) {
+        if ( vp instanceof CardView ) {
             ((View)vp).setVisibility(View.INVISIBLE);
         }
         return null;
@@ -189,7 +190,7 @@ public class DetailFragment extends Fragment implements LoaderManager.LoaderCall
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data != null && data.moveToFirst()) {
             ViewParent vp = getView().getParent();
-            if (vp instanceof CardView) {
+            if ( vp instanceof CardView ) {
                 ((View)vp).setVisibility(View.VISIBLE);
             }
 
