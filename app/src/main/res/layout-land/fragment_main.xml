@@ -35,12 +35,12 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
         <android.support.v4.widget.Space
             android:layout_width="match_parent"
-            android:layout_height="?attr/listPreferredItemHeight" />
+            android:layout_height="?attr/listPreferredItemHeight"/>
     </LinearLayout>
     <include layout="@layout/fragment_main_base"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/appbar"
         android:layout_height="match_parent"
-        android:layout_width="@dimen/landscape_forecast_view_width"/>
+        android:layout_width="@dimen/landscape_forecast_view_width"
+        />
 </RelativeLayout>
